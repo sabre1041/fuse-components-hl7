@@ -86,6 +86,42 @@ MSA|AA|MSGID12349876
 21:47:28,954 | INFO | 0 - file:///tmp/ | Tracer | 142 - org.apache.camel.camel-core - 2.12.0.redhat-610379 | ID-localhost-50691-1420080376277-0-2 >>> (hl7DirectRoute) log[HL7 Response: ${body}] --> mock://hl7DirectResponse <<< Pattern:InOnly, Headers:{CamelHL7TriggerEvent=A01, CamelHL7VersionId=2.4, CamelHL7MessageControl=MSGID12349876, CamelFileNameOnly=camel-test.hl7, CamelFileNameConsumed=camel-test.hl7, CamelHL7Timestamp=20061019172719, CamelHL7MessageType=ADT, CamelHL7Security=null, CamelHL7SendingApplication=FUSEDEMO, CamelFileRelativePath=camel-test.hl7, CamelFileLastModified=1420054586000, CamelHL7ReceivingApplication=TEST, CamelHL7SendingFacility=ORG, CamelFileAbsolute=true, CamelHL7ProcessingId=P, CamelFileAbsolutePath=/tmp/camel-test.hl7, CamelFileParent=/tmp, CamelFilePath=/tmp/camel-test.hl7, CamelFileLength=285, CamelFileName=camel-test.hl7, breadcrumbId=ID-localhost-50691-1420080376277-0-1, CamelHL7ReceivingFacility=JBOSS}, BodyType:byte[], Body:MSH|^~\&|TEST|JBOSS|FUSEDEMO|ORG|20141231214728.945-0500||ACK^A01|1|P|2.4
 MSA|AA|MSGID12349876
 
+Optional Docker Install
+--------------
+
+The following steps can be used to configure and run the demo in a docker container
+
+1. [Download and unzip.](https://github.com/jbossdemocentral/brms-fuse-integration-demo/archive/master.zip). 
+
+2. Add products to installs directory.
+
+3. Copy Dockerfile and .dockerignore from support/docker directory to root directory
+
+4. Build demo image
+
+	```
+	docker build -t jbossdemocentral/fuse-components-hl7 .
+	```
+
+5. Start demo container
+
+    ```
+    docker run --it -p 8181:8181 jbossdemocentral/fuse-components-hl7
+    ```
+
+6. Login to Fuse management console at:  http://&lt;DOCKER_HOST&gt;:8181    (u:admin/p:admin).
+
+7. Navigate to Terminal tab and install demo
+
+	1. features:addurl mvn:org.fusebyexample.examples/hl7-example-features/1.0.0-SNAPSHOT/xml/features
+	2. features:install hl7-example-all
+	3. log:tail
+
+8. In the terminal used to launch the container, copy the camel-test.hl7 file from /opt/jboss/support/ to /tmp/ then look at the /opt/jboss/fuse/jboss-fuse-fuse.log to verify the camel route was executed 
+
+Additional information can be found in the jbossdemocentral docker [developer repository](https://github.com/jbossdemocentral/docker-developer)
+
+
 Supporting Material
 -------------------
 
